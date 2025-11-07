@@ -1,0 +1,87 @@
+###
+# 🏘️ TABLE GROUPS
+###
+
+PEOPLE: {
+    icon: https://icons.terrastruct.com/essentials%2F365-user.svg
+    customers: {
+        shape: sql_table
+        id: int
+        parent_id: int
+        bill_to_id: string
+        name: string
+    }
+    entity: {
+        shape: sql_table
+        entity_id: int {constraint: foreign_key}
+        product_id: int {constraint: foreign_key}
+        entity_part_number: string
+    }
+}
+THINGS: {
+    icon: https://icons.terrastruct.com/azure%2FGeneral%20Service%20Icons%2FTags.svg
+    products: {
+        shape: sql_table
+        # CSN = eid (the actual attr) prefixed with CS
+        csn: string {constraint: primary_key}
+        sku: string
+        product_id: int
+        csn: string
+        description: string
+        priceline: string
+    }
+    prod_class: {
+        shape: sql_table
+        product_id: int {constraint: foreign_key}
+        mfg: string
+    }
+}
+PRICES: {
+    icon: https://icons.terrastruct.com/essentials%2F092-graph%20bar.svg
+    catalog: {
+        shape: sql_table
+        product_id: int {constraint: foreign_key}
+        sku: string {constraint: foreign_key}
+        mfg: string {constraint: foreign_key}
+        description: string
+        mpn: string
+        list price: float
+        Capp price: float
+        price effective date: date
+    }
+}
+SALES: {
+    icon: https://icons.terrastruct.com/essentials%2Fprofits.svg
+    psub: {
+        shape: sql_table
+        full_ord_id: string {constraint: primary_key}
+        product_id: string {constraint: foreign_key}
+        ext_price: float
+    }
+    ar: {
+        shape: sql_table
+        full_ord_id: string {constraint: foreign_key}
+        subtotal_amt: float {constraint: foreign_key}
+    }
+}
+
+###
+# 🔑 FK
+###
+
+# PEOPLE
+PEOPLE.entity.entity_id -> PEOPLE.customers.id
+
+# PRODUCTS
+PEOPLE.entity.product_id -> PRICES.catalog.product_id
+PRICES.catalog.product_id -> THINGS.products.csn
+THINGS.prod_class.product_id -> THINGS.products.csn
+
+# PRICING
+PRICES.catalog.sku -> THINGS.products.sku
+PRICES.catalog.mfg -> THINGS.prod_class.mfg
+
+# SALES
+SALES.psub.product_id -> THINGS.products.csn
+SALES.ar.full_ord_id -> SALES.psub.full_ord_id
+SALES.ar.subtotal_amt -> SALES.psub.ext_price
