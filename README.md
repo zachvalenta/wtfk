@@ -2,19 +2,12 @@ port from analytics.md > wtfk
 
 # things to use instead
 
+* https://realpython.com/ydata-profiling-eda/
 * Datawrangler
-* better IDE like Scripton https://news.ycombinator.com/item?id=43090214
+* Scripton
 * Visidata
 
 # design
-
-`spec.md`
-* https://simonwillison.net/2025/Feb/21/my-llm-codegen-workflow-atm
-* https://harper.blog/2025/02/16/my-llm-codegen-workflow-atm/ 
-
-🧠
-* https://chatgpt.com/g/g-p-67b39a5d3a24819195a762124c226bdb-wa-dong/project
-* https://claude.ai/project/23a89ee8-80ea-4800-b659-ec53133f9270
 
 Attempt at a CLI you can point at a single CSV or at multiple CSVs or a SQLite database and get the following info:
 
